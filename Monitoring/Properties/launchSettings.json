@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Monitoring": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\User\\source\\repos\\InfSystems\\Monitoring"
+    }
+  }
+}

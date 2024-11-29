@@ -1,0 +1,10 @@
+C:\Users\User\source\repos\InfSystems\simplex\obj\Debug\simplex.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\InfSystems\simplex\obj\Debug\simplex.Properties.Resources.resources
+C:\Users\User\source\repos\InfSystems\simplex\obj\Debug\simplex.csproj.GenerateResource.cache
+C:\Users\User\source\repos\InfSystems\simplex\obj\Debug\simplex.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\InfSystems\simplex\bin\Debug\simplex.exe.config
+C:\Users\User\source\repos\InfSystems\simplex\bin\Debug\simplex.exe
+C:\Users\User\source\repos\InfSystems\simplex\bin\Debug\simplex.pdb
+C:\Users\User\source\repos\InfSystems\simplex\obj\Debug\simplex.Form1.resources
+C:\Users\User\source\repos\InfSystems\simplex\obj\Debug\simplex.exe
+C:\Users\User\source\repos\InfSystems\simplex\obj\Debug\simplex.pdb
