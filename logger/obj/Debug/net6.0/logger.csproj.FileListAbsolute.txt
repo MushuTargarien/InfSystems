@@ -1,0 +1,15 @@
+C:\Users\User\source\repos\InfSystems\logger\bin\Debug\net6.0\logger.exe
+C:\Users\User\source\repos\InfSystems\logger\bin\Debug\net6.0\logger.deps.json
+C:\Users\User\source\repos\InfSystems\logger\bin\Debug\net6.0\logger.runtimeconfig.json
+C:\Users\User\source\repos\InfSystems\logger\bin\Debug\net6.0\logger.dll
+C:\Users\User\source\repos\InfSystems\logger\bin\Debug\net6.0\logger.pdb
+C:\Users\User\source\repos\InfSystems\logger\obj\Debug\net6.0\logger.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\InfSystems\logger\obj\Debug\net6.0\logger.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\InfSystems\logger\obj\Debug\net6.0\logger.AssemblyInfo.cs
+C:\Users\User\source\repos\InfSystems\logger\obj\Debug\net6.0\logger.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\InfSystems\logger\obj\Debug\net6.0\logger.sourcelink.json
+C:\Users\User\source\repos\InfSystems\logger\obj\Debug\net6.0\logger.dll
+C:\Users\User\source\repos\InfSystems\logger\obj\Debug\net6.0\refint\logger.dll
+C:\Users\User\source\repos\InfSystems\logger\obj\Debug\net6.0\logger.pdb
+C:\Users\User\source\repos\InfSystems\logger\obj\Debug\net6.0\logger.genruntimeconfig.cache
+C:\Users\User\source\repos\InfSystems\logger\obj\Debug\net6.0\ref\logger.dll
