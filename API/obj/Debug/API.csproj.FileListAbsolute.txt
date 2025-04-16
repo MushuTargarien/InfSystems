@@ -1,0 +1,13 @@
+C:\Users\User\source\repos\InfSystems\API\bin\Debug\API.exe.config
+C:\Users\User\source\repos\InfSystems\API\bin\Debug\API.exe
+C:\Users\User\source\repos\InfSystems\API\bin\Debug\API.pdb
+C:\Users\User\source\repos\InfSystems\API\obj\Debug\API.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\InfSystems\API\obj\Debug\API.Form1.resources
+C:\Users\User\source\repos\InfSystems\API\obj\Debug\API.Properties.Resources.resources
+C:\Users\User\source\repos\InfSystems\API\obj\Debug\API.csproj.GenerateResource.cache
+C:\Users\User\source\repos\InfSystems\API\obj\Debug\API.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\InfSystems\API\obj\Debug\API.exe
+C:\Users\User\source\repos\InfSystems\API\obj\Debug\API.pdb
+C:\Users\User\source\repos\InfSystems\API\bin\Debug\Newtonsoft.Json.dll
+C:\Users\User\source\repos\InfSystems\API\bin\Debug\Newtonsoft.Json.xml
+C:\Users\User\source\repos\InfSystems\API\obj\Debug\API.csproj.Up2Date
