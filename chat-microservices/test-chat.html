@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat Service Test</title>
+  <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script> 
+</head>
+<body>
+  <h2>Тестирование Chat Service</h2>
+  <input type="text" id="messageInput" placeholder="Введите сообщение">
+  <button onclick="sendMessage()">Отправить</button>
+
+  <ul id="messages"></ul>
+
+  <script>
+    const socket = io('http://localhost:3003');
+
+    function sendMessage() {
+      const input = document.getElementById('messageInput');
+      const message = input.value;
+
+      socket.emit('sendMessage', {
+        content: message,
+        senderId: 1,
+        room: 'general'
+      });
+
+      input.value = '';
+    }
+
+    socket.on('message', (msg) => {
+      const list = document.getElementById('messages');
+      const item = document.createElement('li');
+      item.textContent = `${msg.senderId}: ${msg.content}`;
+      list.appendChild(item);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  user-service:
+    build: ./user-service
+    restart: always
+    ports:
+      - '3001:3001'
+    environment:
+      DATABASE_URL: "postgresql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@postgres:5432/${DATABASE_NAME}?schema=public"
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - postgres
+
+  chat-service:
+    build: ./chat-service
+    restart: always
+    ports:
+      - '3003:3003'
+    environment:
+      DATABASE_URL: "postgresql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@postgres:5432/${DATABASE_NAME}?schema=public"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
