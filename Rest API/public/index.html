@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Платформа для обмена растениями</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body class="bg-light">
+
+  <div class="container py-4">
+    <h1 class="mb-4 text-success">Список растений</h1>
+
+
+    <table class="table table-striped table-bordered">
+      <thead class="table-success">
+        <tr>
+          <th>Название</th>
+          <th style="width: 150px;">Действия</th>
+        </tr>
+      </thead>
+      <tbody id="plantsBody"></tbody>
+    </table>
+
+       <div class="alert alert-danger d-none" id="errorMsg"></div>
+
+    <h4 class="mt-4">Добавить новое растение</h2>
+    <form id="plantForm" class="row g-3 mb-4">
+      <div class="col-md-10">
+        <input type="text" id="name" class="form-control" placeholder="Название растения" required>
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-success w-100">Добавить</button>
+      </div>
+    </form>
+
+    <form id="editForm" class="row g-3 mb-4" style="display: none;">
+      
+    <h2 class="mt-5">Редактирование растения</h2>
+      <input type="hidden" id="editId">
+      <div class="col-md-10">
+        <input type="text" id="editName" class="form-control" placeholder="Новое название" required>
+      </div>
+      <div class="col-md-2 d-flex gap-2">
+        <button type="submit" class="btn btn-primary w-100">Сохранить</button>
+        <button type="button" class="btn btn-secondary w-100" onclick="cancelEdit()">Отмена</button>
+      </div>
+    </form>
+
+        
+    <hr class="my-5">
+    <h2 class="text-primary">Пользователи</h2>
+
+    <table class="table table-bordered mt-3">
+      <thead class="table-info">
+        <tr>
+          <th>Имя</th>
+          <th style="width: 150px;">Действия</th>
+        </tr>
+      </thead>
+      <tbody id="usersBody"></tbody>
+    </table>
+
+    <h4 class="mt-4">Добавить пользователя</h4>
+    <form id="userForm" class="row g-3 mb-3">
+      <div class="col-md-10">
+        <input type="text" id="userName" class="form-control" placeholder="Имя пользователя" required>
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-success w-100">Добавить</button>
+      </div>
+    </form>
+
+ 
+    <form id="editUserForm" class="row g-3" style="display: none;">
+         <h4>Редактирование пользователя</h4>
+      <input type="hidden" id="editUserId">
+      <div class="col-md-10">
+        <input type="text" id="editUserName" class="form-control" placeholder="Новое имя" required>
+      </div>
+      <div class="col-md-2 d-flex gap-2">
+        <button type="submit" class="btn btn-primary w-100">Сохранить</button>
+        <button type="button" class="btn btn-secondary w-100" onclick="cancelUserEdit()">Отмена</button>
+      </div>
+    </form>
+
+    <hr class="my-5">
+
+    <h2 class="text-primary">Обмены</h2>
+
+    <table class="table table-bordered mt-3">
+      <thead class="table-info">
+        <tr>
+          <th>Пользователь</th>
+          <th>Предлагает</th>
+          <th>Хочет получить</th>
+          <th>Действия</th>
+        </tr>
+      </thead>
+      <tbody id="exchangeBody"></tbody>
+    </table>
+
+    <h4 class="mt-4">Добавить обмен</h4>
+    <form id="exchangeForm" class="row g-3">
+      <div class="col-md-3">
+        <select id="userSelect" class="form-select" required>
+          <option value="">Выберите пользователя</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <select id="offeredPlant" class="form-select" required>
+          <option value="">Предлагаемое растение</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <select id="desiredPlant" class="form-select" required>
+          <option value="">Желаемое растение</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <button type="submit" class="btn btn-success w-100">Добавить</button>
+      </div>
+    </form>
+
+    <hr class="my-5">
+
+    <h2 class="text-secondary">История обменов</h2>
+
+    <table class="table table-bordered">
+      <thead class="table-secondary">
+        <tr>
+          <th>Создал</th>
+          <th>Предлагает</th>
+          <th>Хочет</th>
+          <th>Принял</th>
+          <th>Время</th>
+        </tr>
+      </thead>
+      <tbody id="historyBody"></tbody>
+    </table>
+
+    <a href="http://localhost:3000/api/reports/download" class="btn btn-outline-success" target="_blank">
+  Скачать отчёт (.docx)
+</a>
+
+  </div>
+
+
+
+  <div class="modal fade" id="acceptModal" tabindex="-1" aria-labelledby="acceptModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="acceptForm">
+          <div class="modal-header">
+            <h5 class="modal-title">Принять обмен</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="acceptExchangeId">
+            <label for="acceptUserSelect" class="form-label">Кто принимает обмен:</label>
+            <select id="acceptUserSelect" class="form-select" required>
+              <option value="">Выберите пользователя</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Подтвердить</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <script>
+    async function fetchPlants() {                                            // загрузка растеий
+      const res = await fetch('http://localhost:3000/api/plants');
+      const plants = await res.json();
+
+      const tbody = document.getElementById('plantsBody');
+      tbody.innerHTML = '';
+
+      plants.forEach(plant => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${plant.name}</td>
+          <td>
+            <div class="d-flex gap-2">
+              <button class="btn btn-sm btn-warning" onclick="startEdit(${plant.id}, '${plant.name.replace(/'/g, "\\'")}')">Изменить</button>
+              <button class="btn btn-sm btn-danger" onclick="deletePlant(${plant.id})">Удалить</button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    async function deletePlant(id) { 
+      if (confirm('Удалить это растение?')) {
+        await fetch(`http://localhost:3000/api/plants/${id}`, {
+          method: 'DELETE'
+        });
+        fetchPlants();
+      }
+    }
+
+    document.getElementById('plantForm').addEventListener('submit', async (e) => {
+    e.preventDefault(); // Форма не перезагружает страницу при отправке
+
+      const name = document.getElementById('name').value;
+      const errorBox = document.getElementById('errorMsg');
+
+      const res = await fetch('http://localhost:3000/api/plants', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name })
+      });
+
+      if (res.status === 409) {                     // для обработки уже сущетсвующего растения 
+        const data = await res.json();
+        errorBox.textContent = data.error;
+        errorBox.classList.remove('d-none');
+        setTimeout(() => {
+          errorBox.classList.add('d-none');
+        }, 3000); 
+
+        return;
+      }
+
+      errorBox.classList.add('d-none');
+      document.getElementById('plantForm').reset();
+      fetchPlants();
+  });
+
+
+    function startEdit(id, name) {                                       // октрывает поля для редактирвания растения
+      document.getElementById('editForm').style.display = 'flex';
+      document.getElementById('editId').value = id;
+      document.getElementById('editName').value = name;
+      document.getElementById('editForm').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function cancelEdit() {                                               // скрывает поля для редактирвания растения
+      document.getElementById('editForm').style.display = 'none';
+      document.getElementById('editForm').reset();
+    }
+
+    document.getElementById('editForm').addEventListener('submit', async (e) => {                //для отправки запроса на сервер на изменение  данных 
+      e.preventDefault();
+      const id = document.getElementById('editId').value;
+      const name = document.getElementById('editName').value;
+
+      await fetch(`http://localhost:3000/api/plants/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name })
+      });
+
+      cancelEdit();
+      fetchPlants();
+    });
+
+    // Загрузка пользователей
+    async function fetchUsers() {
+      const res = await fetch('http://localhost:3000/api/users');
+      const users = await res.json();
+
+      const tbody = document.getElementById('usersBody');
+      tbody.innerHTML = '';
+
+      users.forEach(user => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${user.name}</td>
+          <td>
+            <div class="d-flex gap-2">
+              <button class="btn btn-sm btn-warning" onclick="startUserEdit(${user.id}, '${user.name.replace(/'/g, "\\'")}')">Изменить</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteUser(${user.id})">Удалить</button>
+            
+            </div>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      // Перезаполнить списки пользователей для обмена
+      populateSelects();
+    }
+
+    // Добавление пользователя
+    document.getElementById('userForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('userName').value;
+
+      await fetch('http://localhost:3000/api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name })
+      });
+
+      e.target.reset();
+      fetchUsers();
+    });
+
+    // Удаление пользователя
+    async function deleteUser(id) {
+      if (confirm('Удалить пользователя?')) {
+        await fetch(`http://localhost:3000/api/users/${id}`, { method: 'DELETE' });
+        fetchUsers();
+      }
+    }
+
+    // Начать редактирование
+    function startUserEdit(id, name) {
+      document.getElementById('editUserForm').style.display = 'flex';
+      document.getElementById('editUserId').value = id;
+      document.getElementById('editUserName').value = name;
+      document.getElementById('editUserForm').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Отмена редактирования
+    function cancelUserEdit() {
+      document.getElementById('editUserForm').style.display = 'none';
+      document.getElementById('editUserForm').reset();
+    }
+
+    // Сохранение редактирования
+    document.getElementById('editUserForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const id = document.getElementById('editUserId').value;
+      const name = document.getElementById('editUserName').value;
+
+      await fetch(`http://localhost:3000/api/users/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name })
+      });
+
+      cancelUserEdit();
+      fetchUsers();
+    });
+
+
+
+    // Получить список пользователей и растений в выпадающие списки
+    async function populateSelects() {
+      const usersRes = await fetch('http://localhost:3000/api/users');
+      const users = await usersRes.json();
+      const plantsRes = await fetch('http://localhost:3000/api/plants');
+      const plants = await plantsRes.json();
+
+      const userSelect = document.getElementById('userSelect');
+      const offeredPlant = document.getElementById('offeredPlant');
+      const desiredPlant = document.getElementById('desiredPlant');
+
+      [userSelect, offeredPlant, desiredPlant].forEach(select => {
+        select.innerHTML = '<option value="">Выберите...</option>';
+      });
+
+      users.forEach(user => {
+        const opt = document.createElement('option');
+        opt.value = user.id;
+        opt.textContent = user.name;
+        userSelect.appendChild(opt);
+      });
+
+      plants.forEach(plant => {
+        const opt1 = document.createElement('option');
+        opt1.value = plant.id;
+        opt1.textContent = plant.name;
+        offeredPlant.appendChild(opt1);
+
+        const opt2 = opt1.cloneNode(true);
+        desiredPlant.appendChild(opt2);
+      });
+    }
+
+    // Загрузить список обменов
+    async function fetchExchanges() {
+      const res = await fetch('http://localhost:3000/api/exchange');
+      const data = await res.json();
+
+      const tbody = document.getElementById('exchangeBody');
+      tbody.innerHTML = '';
+
+      data.forEach(ex => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${ex.user_name}</td>
+          <td>${ex.offered_plant}</td>
+          <td>${ex.desired_plant}</td>
+          <td>
+            <div class="d-flex gap-2">
+              <button class="btn btn-sm btn-success" onclick="openAcceptModal(${ex.id})">Подтвердить</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteExchange(${ex.id})">Удалить</button>
+            </div>
+          </td>
+
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // Удаление обмена
+    async function deleteExchange(id) {
+      if (confirm('Удалить это предложение обмена?')) {
+        await fetch(`http://localhost:3000/api/exchange/${id}`, { method: 'DELETE' });
+        fetchExchanges();
+      }
+    }
+
+    // Добавление нового обмена
+    document.getElementById('exchangeForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const user_id = document.getElementById('userSelect').value;
+      const offered_id = document.getElementById('offeredPlant').value;
+      const desired_id = document.getElementById('desiredPlant').value;
+
+      await fetch('http://localhost:3000/api/exchange', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id,
+          offered_plant_id: offered_id,
+          desired_plant_id: desired_id
+        })
+      });
+
+      e.target.reset();
+      fetchExchanges();
+    });
+
+    function openAcceptModal(exchangeId) {
+      document.getElementById('acceptExchangeId').value = exchangeId;
+
+      // Заполнить выпадающий список
+      fetch('http://localhost:3000/api/users')
+        .then(res => res.json())
+        .then(users => {
+          const select = document.getElementById('acceptUserSelect');
+          select.innerHTML = '<option value="">Выберите пользователя</option>';
+          users.forEach(u => {
+            const opt = document.createElement('option');
+            opt.value = u.id;
+            opt.textContent = u.name;
+            select.appendChild(opt);
+          });
+
+          const modal = new bootstrap.Modal(document.getElementById('acceptModal'));
+          modal.show();
+        });
+    }
+
+    document.getElementById('acceptForm').addEventListener('submit', async (e) => {        // сохранения принятия обмена
+      e.preventDefault();
+
+      const exchangeId = document.getElementById('acceptExchangeId').value;
+      const acceptedBy = document.getElementById('acceptUserSelect').value;
+    
+
+      await fetch(`http://localhost:3000/api/exchange/${exchangeId}/accept`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ accepted_by: acceptedBy })
+      });
+
+      const modalEl = document.getElementById('acceptModal');
+      bootstrap.Modal.getInstance(modalEl).hide();
+
+      fetchExchanges();
+      fetchUsers(); 
+      fetchHistory();
+    });
+
+    async function fetchHistory() {                                                  // загрузка истории обменов
+      const res = await fetch('http://localhost:3000/api/exchange/history');
+      const history = await res.json();
+
+      const tbody = document.getElementById('historyBody');
+      tbody.innerHTML = '';
+
+      history.forEach(entry => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${entry.creator_name}</td>
+          <td>${entry.offered_name}</td>
+          <td>${entry.desired_name}</td>
+          <td>${entry.accepter_name}</td>
+          <td>${new Date(entry.timestamp).toLocaleString()}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+
+
+
+    // загрузка данных при открытии страницы
+    populateSelects();
+    fetchExchanges();
+    fetchUsers(); 
+    fetchPlants();
+    fetchHistory();
+
+  </script>
+</body>
+</html>
